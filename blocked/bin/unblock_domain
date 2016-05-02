@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#This script is intended to undo blocks created by block_domain.
+#It sometimes fails unexpectedly under certain exotic conditions,
+#but should be good enough for most uses
+
+#TODO: update this or unify it with block_domain!
+
+#NOTE: you'll have to change these if you move the functions and config files
+#      somewhere outside of the script's directory!
+. $(dirname $0)/functions
+. $(dirname $0)/config
+
+if [ "$1" == "" ]
+then
+   echo "USAGE: $0 <domain name>"
+   exit 1
+fi
+
+if [ ! -f $BLOCKDIR/domains/$1 ]
+then
+   echo "$1 file doesn't exist, not doing anything"
+else
+   rm -f $BLOCKDIR/domains/$1
+
+   grep -v "zone \"$1\" { type master; file \"$BLOCKDIR/domains/$1\"; };" $ETCDIR/misc/named.conf.blocked >> $ETCDIR/misc/named.conf.blocked.new
+   mv -f $BLOCKDIR/named.conf.blocked.new $BLOCKDIR/named.conf.blocked
+
+   $BIND_RESTART_COMMAND
+   RET=$?
+
+   if [ $RET == 0 ]; then
+      commit
+   fi  
+fi
+
+remote $BLOCKBINDIR/unblock_domain $* NOREMOTE

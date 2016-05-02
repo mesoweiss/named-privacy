@@ -1,0 +1,8 @@
+zone "android.pool.ntp.org" { type master; file "/etc/named/named-privacy/redirects/domains/android.pool.ntp.org"; };
+zone "arch.pool.ntp.org" { type master; file "/etc/named/named-privacy/redirects/domains/arch.pool.ntp.org"; };
+zone "centos.pool.ntp.org" { type master; file "/etc/named/named-privacy/redirects/domains/centos.pool.ntp.org"; };
+zone "debian.pool.ntp.org" { type master; file "/etc/named/named-privacy/redirects/domains/debian.pool.ntp.org"; };
+zone "fedora.pool.ntp.org" { type master; file "/etc/named/named-privacy/redirects/domains/fedora.pool.ntp.org"; };
+zone "gentoo.pool.ntp.org" { type master; file "/etc/named/named-privacy/redirects/domains/gentoo.pool.ntp.org"; };
+zone "opensuse.pool.ntp.org" { type master; file "/etc/named/named-privacy/redirects/domains/opensuse.pool.ntp.org"; };
+zone "ubuntu.pool.ntp.org" { type master; file "/etc/named/named-privacy/redirects/domains/ubuntu.pool.ntp.org"; };

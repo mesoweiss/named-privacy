@@ -1,0 +1,28 @@
+If all you're interested in is installing this with minimal fuss,
+then all you have to do is make sure this project directory is
+available at /etc/named/named-privacy, add this line to
+relevant view {}s or other relevant zone file locations:
+
+include "/etc/named/named-privacy/named-privacy.conf";
+
+...change the "127.0.0.1." entries in redirects/named.soa to point 
+to your local dns server (IF you're using a non-localhost server) 
+then reload or restart named. You'll also want to create a cron job 
+that performs a "git pull" as your BIND user and does a 
+"service named reload" or equivalent periodically if you want to 
+have updates automatically applied.
+
+You can also add your own blocks and redirects using the scripts
+in blocked/bin and redirects/bin, but be aware that that will
+prevent you from being able to auto-update from upstream since
+it'll cause your local copy to diverge and make git complain and
+refuse to do anything.
+
+Check the tops of the scripts for information on what they do
+and how to use them as there isn't any separate documentation
+at present.
+
+Once again, make SURE you set up the up the redirects/named.soa
+properly or ntp clients with default settings pointing to entries
+like 0.ubuntu.pool.ntp.org WILL fail in strange ways. Alternatively,
+comment-out the named.conf.redirects line in named-privacy.conf

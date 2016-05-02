@@ -1,0 +1,38 @@
+#Basic user and ownership information. BIND_USER and BIND_GROUP
+#will normally be 'bind' for deb-based distros and 'named' for
+#rpm-based distros, and DEFAULT_USER should be whatever user
+#account is allowed to modify your BIND configs
+DEFAULT_USER=root
+BIND_USER=bind
+BIND_GROUP=bind 
+
+#Basic paths. You'll probably only ever want to change ETCDIR
+#unless you plan on forking as you won't be able to just
+#'git pull' updates anymore
+ETCDIR=/etc/named
+PRIVACYDIR=$ETCDIR/privacy
+BLOCKDIR=$PRIVACYDIR/blocked
+BLOCKBINDIR=$BLOCKDIR/bin
+REDIRECTDIR=$PRIVACYDIR/redirects
+REDIRECTBINDIR=$REDIRECTDIR/bin
+
+#This is the ssh option set used during updates of remote systems,
+#among other things
+SSH_OPTS="-C -i $ETCDIR/private/named.key"
+
+#Options to pass to rsync commands used by various scripts
+RS_OPTS="-e \"ssh $SSH_OPTS\""
+
+#Command used to reload named after configuration updates.
+#If all else fails, use the third one
+BIND_RESTART_COMMAND="service bind9 reload"
+#BIND_RESTART_COMMAND="service named reload"
+#BIND_RESTART_COMMAND="killall -s KILL named && /usr/sbin/named -u $BIND_USER &"
+
+BLOCKLISTS="
+https://easylist-downloads.adblockplus.org/easylist_noelemhide.txt
+https://easylist-downloads.adblockplus.org/easyprivacy.txt
+https://easylist-downloads.adblockplus.org/adwarefilters.txt
+https://secure.fanboy.co.nz/fanboy-antifonts.txt
+https://secure.fanboy.co.nz/enhancedstats.txt
+"

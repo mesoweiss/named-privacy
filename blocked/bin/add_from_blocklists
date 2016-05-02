@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#This script is intended to automate importing new domain block entries 
+#from easylist, easyprivacy, fanboy, et al. It works in theory, but
+#the checking patterns could easily leave you with a broken named
+#config with some unexpected list formats, so proceed with caution
+
+#NOTE: you'll have to change these if you move the functions and config files
+#      somewhere outside of the script's directory!
+. $(dirname $0)/functions
+. $(dirname $0)/config
+
+mkdir -p $BLOCKDIR/blocklist_cache
+pushd $BLOCKDIR/blocklist_cache
+
+for url in $BLOCKLISTS; do
+   FILE=$(basename $url)
+   proxychains wget -N "$url" && \
+   grep -e "\..*\." $FILE |grep -e "^||" |grep -v "/" |grep -v "," |grep -v "*" |sed -e 's/||\(.*\)\^.*/\1/g' | \
+   grep -i -e "^track\." -e "^tracker\." -e "^tracking\." -e "click" -e "ads" -e "target" -e "^ad\." -e "^ads\." -e "^a\." -e "^ad" |sort |uniq > $FILE.processed
+done
+
+URLS=$(cat *.processed |sort |uniq)
+
+for url in $URLS; do
+   $BLOCKBINDIR/block_domain $url NOCOMMIT NORESTART NOREMOTE
+done
+
+$BIND_RESTART_CMD
+
+commit
+
+popd
+
+remote $BLOCKBINDIR/$(basename $0) NOREMOTE NORESTART NOCOMMIT

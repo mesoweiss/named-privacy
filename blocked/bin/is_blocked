@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#NOTE: you'll have to change these if you move the functions and config files
+#      somewhere outside of the script's directory!
+. $(dirname $0)/functions
+. $(dirname $0)/config   
+
+if [ "$1" == "" ]
+then
+   echo ""
+   echo "USAGE: $0 <domain>"
+   echo ""
+   exit 1
+fi
+
+grep $1 $BLOCKDIR/named.conf.blocked

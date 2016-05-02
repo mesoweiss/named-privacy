@@ -1,0 +1,23 @@
+
+$INCLUDE /etc/named/named-privacy/redirects/named.soa
+                                                                       
+@			IN A		127.0.1.1
+
+
+0.gentoo.pool.ntp.org.	IN CNAME	0.pool.ntp.org.
+1.gentoo.pool.ntp.org.	IN CNAME	1.pool.ntp.org.
+2.gentoo.pool.ntp.org.	IN CNAME	2.pool.ntp.org.
+3.gentoo.pool.ntp.org.	IN CNAME	3.pool.ntp.org.
+4.gentoo.pool.ntp.org.	IN CNAME	4.pool.ntp.org.
+5.gentoo.pool.ntp.org.	IN CNAME	5.pool.ntp.org.
+6.gentoo.pool.ntp.org.	IN CNAME	6.pool.ntp.org.
+7.gentoo.pool.ntp.org.	IN CNAME	7.pool.ntp.org.
+8.gentoo.pool.ntp.org.	IN CNAME	8.pool.ntp.org.
+9.gentoo.pool.ntp.org.	IN CNAME	9.pool.ntp.org.
+10.gentoo.pool.ntp.org.	IN CNAME	10.pool.ntp.org.
+11.gentoo.pool.ntp.org.	IN CNAME	11.pool.ntp.org.
+12.gentoo.pool.ntp.org.	IN CNAME	12.pool.ntp.org.
+13.gentoo.pool.ntp.org.	IN CNAME	13.pool.ntp.org.
+14.gentoo.pool.ntp.org.	IN CNAME	14.pool.ntp.org.
+15.gentoo.pool.ntp.org.	IN CNAME	15.pool.ntp.org.
+16.gentoo.pool.ntp.org.	IN CNAME	16.pool.ntp.org.

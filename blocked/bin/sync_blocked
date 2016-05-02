@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#As the name suggests, this syncs blocked domain entries to
+#another BIND installation on a user-specified host. It's
+#basically just a simple rsync wrapper that provides a
+#convenient shorthand method
+
+if [ "$1" == "" ]
+then
+   echo "USAGE: $0 <destination host>"
+   exit 1
+fi
+
+#NOTE: you'll have to change these if you move the functions and config files
+#      somewhere outside of the script's directory!
+. $(dirname $0)/functions
+. $(dirname $0)/config
+
+rsync -avxHAX $RS_OPTS $BLOCKDIR/named.conf.blocked $1:$BLOCKDIR/
+rsync -avxHAX $RS_OPTS $BLOCKDIR/domains $1:$BLOCKDIR/
+ssh $SSH_OPTS $1 $BIND_RESTART_COMMAND
+
+echo -n "Return Code: "
+if [ "$?" != "0" ]
+then
+   echo FAILED
+else
+   echo SUCCESS
+fi

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#This script outputs new pool.ntp.org subdomain zone content that
+#CNAMEs N.<USER_INPUT>.pool.ntp.org entries back to N.pool.ntp.org.
+#Most redirects are already in place in the package that this comes 
+#with, so you'll probably only ever need to use it if your ntp client 
+#insists on trying to use an unsupported <OS>.pool.ntp.org by default
+#(and you actually care that your client(s) are leaking)
+
+. functions
+. config
+
+COUNT=0
+END=17
+
+echo -e "
+\$INCLUDE $REDIRECTDIR/named.soa
+                                                                       
+@\t\t\tIN A\t\t127.0.1.1
+
+"
+
+while [ "$COUNT" != "$END" ]; do
+   echo -e "$COUNT.$1.pool.ntp.org.\tIN CNAME\t$COUNT.pool.ntp.org."
+   COUNT=$(expr $COUNT "+" 1)
+done

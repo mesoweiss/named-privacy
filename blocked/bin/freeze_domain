@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#This script is intended to freeze a domain or subdomain at a specific
+#point in time. It was originally written for use with fetchmail with
+#mail hosts like google that direct users to different clusters having
+#different certificates (and thus cert fingerprints) based on apparent
+#location. It's received very, very minimal testing since google and 
+#other major providers became extremely tor-hostile shortly after
+#its creation, so ymmv
+
+#NOTE: you'll have to change these if you move the functions and config files
+#      somewhere outside of the script's directory!
+. $(dirname $0)/functions
+. $(dirname $0)/config   
+
+if [ "$1" == "" ]
+then
+   echo "USAGE: $0 <domain name>"
+   exit 1
+fi
+
+cp -a $BLOCKDIR/named.hosts.blocktemplate $BLOCKDIR/domains/$1
+
+echo "" >> $BLOCKDIR/domains/$1
+for ip in $(host $1 |grep -v alias |cut -d" " -f4); do
+   if [ "$ip" == "found" ]
+   then
+      rm -f $BLOCKDIR/domains/$1
+      echo "ERROR: Domain not found"
+      exit 1
+   fi
+
+   echo -e "@\tIN A\t\t$ip" >> $BLOCKDIR/domains/$1
+done
+echo "" >> $BLOCKDIR/domains/$1
+
+echo "zone \"$1\" { type master; file \"$BLOCKDIR/domains/$1\"; };" >> $ETCDIR/misc/named.conf.blocked
+
+$BIND_RESTART_COMMAND

@@ -1,0 +1,68 @@
+[Adblock Plus 2.0]
+! Checksum: 1EyCaAfcR39jGJFpyKXAaw
+! Version: 201510070010
+! Title: Adware filters
+! Last modified: 07 Oct 2015 00:10 UTC
+! Expires: 1 day (update frequency)
+!
+||*-a.akamaihd.net/a24/gsd.html?$third-party
+||*-a.akamaihd.net/a24/scripts/gsd.js?$third-party
+||admdftjs.info^$third-party
+||akamaihd.net/sub/h0982be^$third-party
+||akamaihd.net/sub/i713748^$third-party
+||akamaihd.net/sub/v3219bd^$third-party
+||apiskywebbercom-a.akamaihd.net^
+||b36df47b3d.site.internapcdn.net^
+||best-deals-products.com/ws/sf_main.jsp
+||blkz2x.com^$third-party
+||bobrojs.info^$third-party
+||boostsaves.com^$third-party
+||cdncache1-a.akamaihd.net/loaders/1094^$third-party
+||cdncache-a.akamaihd.net/loaders/1748/l.js$third-party
+||cdncache-a.akamaihd.net/loaders/2317^$third-party
+||cdncache-a.akamaihd.net/sub/x5af2dd/$third-party
+||crbfjs.info^$third-party
+||crbsjs.info^$third-party
+||d2a8a4q9.ssl.hwcdn.net/cc/a.js^$third-party
+||deals-way.com/jsdist/deal-js-dist.js
+||deals-way.com^$third-party
+||desertboymedia.com/ss_feed/injector.min.js
+||donation-tools.org^$third-party
+||endall41-q.apollocdn.com/dealdo^$third-party
+||engageya.com^$third-party
+||eshopcomp.com^$third-party
+||flwapp.com^$third-party
+||fp114.digitaloptout.com/pubjs^$third-party
+||gosignserv.com/cc/a.js^$third-party
+||i_crbsjs_info.tlscdn.com^$third-party
+||iabfjs.info^$third-party
+||iaftjs.info^$third-party
+||izerbsjs.info^$third-party
+||jollywallet.com^$third-party
+||lightquartrate.com^$third-party
+||linkbolic.com^$third-party
+||linknavi1.com/js/intext.js^$third-party
+||mntrlfjs.info^$third-party
+||nadijs.info/dealdo^$third-party
+||nav-links.com^$third-party
+||rfnd.me^$third-party
+||s.apollocdn.com/dealdo^$third-party
+||shoppingate.info^$third-party
+||stegjs.info/dealdo^$third-party
+||sterisjs.info^$third-party
+||superfish.com^$third-party
+||swebbsjs.info^$third-party
+||tfxiq.com^$third-party
+||tubebsjs.info^$third-party
+||ws.pricedetect.com^
+||xfreeservice.com^$third-party
+! Popup filters
+||adssend.net^$popup,third-party
+||foramenenactments.com^$popup,third-party
+||hklmm.com^$popup,third-party
+||mobiappsclub.com^$popup,third-party
+||poetiseunderpay.com^$popup,third-party
+||t.trkapp.net^$popup,third-party
+||tr553.com^$popup,third-party
+||yxo.warmportrait.com^$popup,third-party
+||zeroredirect1.com^$popup,third-party

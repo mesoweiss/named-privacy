@@ -1,0 +1,67 @@
+#!/bin/bash
+
+#This script creates entries which effectively block a given domain or subdomain
+#by adding authoritative entries to the local BIND server configuration(s)
+#for them. The template normally will point back to 127.0.0.1 which means the
+#clients will try looking at a nameserver on themselves and fail with an error,
+#but it could be changed to point to a local http server with transparent pixeled
+#images or something more elaborate.
+
+#Several environment variables control this script, and may be appended to
+#the commandline after the name of the (sub)domain to block
+
+#The variables/options are:
+#NOCOMMIT - skip automatically updating the files in the git repo
+#NORESTART - skip restarting named/bind after the addition
+#NOREMOTE - don'tr try to update any remote instances
+
+#TODO: Allow a different directory to be passed in via environment variable
+
+#NOTE: you'll have to change these if you move the functions and config files
+#      somewhere outside of the script's directory!
+. $(dirname $0)/functions
+. $(dirname $0)/config
+
+MODE="Add"
+
+if [ "$1" == "" ]; then
+   echo "USAGE: $0 <domain name> (OPTIONS)"
+   echo ""
+   echo "OPTIONS:"
+   echo "NORESTART - don't try to restart BIND"
+   echo "NOCOMMIT - skip the git autocommit"
+   echo "NOREMOTE - don't try to run the command on remote hosts"
+   echo ""
+
+   exit 1
+fi
+
+for arg in $(echo $* |sed -e "s| $1||g"); do
+   if [ "$arg" == "NOREMOTE" ]; then
+      NOREMOTE=1
+   elif [ "$arg" == "NOCOMMIT" ]; then
+      NOCOMMIT=1
+   elif [ "$arg" == "NORESTART" ]; then
+      NORESTART=1 
+   fi  
+done
+
+if [ -f $BLOCKDIR/domains/$1 ]; then
+   echo "$1 file exists, not doing anything"
+else
+   cp -a $BLOCKDIR/named.hosts.blocktemplate $BLOCKDIR/domains/$1
+   chown root:$BIND_GROUP $BLOCKDIR/domains/$1
+   chmod 0640 $BLOCKDIR/domains/$1
+
+   echo "zone \"$1\" { type master; file \"$BLOCKDIR/domains/$1\"; };" >> $BLOCKDIR/named.conf.blocked
+
+   if [ "$NORESTART" != "1" ]; then $BIND_RESTART_COMMAND; fi
+   RET=$?
+
+   if [ $RET == 0 ]; then
+      commit
+   fi  
+fi
+
+#Update other hosts (if any listed)
+remote $BLOCKBINDIR/block_domain $* NOREMOTE

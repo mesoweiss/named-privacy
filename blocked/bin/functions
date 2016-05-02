@@ -1,0 +1,42 @@
+remote() {
+   if [ "$NOREMOTE" != "1" ] && [ -e "$BLOCKDIR/peers" ]; then
+      for host in $(cat $BLOCKDIR/peers)
+      do
+         user=$(echo $host |cut -d"@" -f1)
+         host=$(echo $host |cut -d"@" -f2)
+      
+         if [ "$host" == "" ]; then
+            host=$user
+            user=$DEFAULT_USER
+         fi
+   
+         if [ "$host" == "$(hostname)" ]; then
+            echo "Local host detected in $BLOCKDIR/peers file; skipping"
+         else
+            echo $host
+            echo "---------------------"
+            ssh $SSH_OPTS $user@$host $*
+            RET=$?
+
+            echo ""
+            echo -n "Return code: "
+            if [ $RET == 0 ]; then
+               echo "success"
+            else
+               echo "FAILED"
+            fi
+ 
+            echo "---------------------"
+         fi
+      done
+   fi
+}
+
+commit() {
+   if [ "$NOCOMMIT" != "1" ]; then
+      cd $BLOCKDIR  
+      git add -A *
+      git commit -a -m "$(basename $0) - Added or removed blocked domains"
+      git push
+   fi
+}
